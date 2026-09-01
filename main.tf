@@ -118,3 +118,54 @@ resource "confluent_api_key" "my_flink_api_key" {
     confluent_service_account.flink_service_account
   ]
 }
+
+
+# Deploy a Flink SQL statement to Confluent Cloud.
+resource "confluent_flink_statement" "my_flink_statement" {
+  organization {
+    id = data.confluent_organization.my_org.id
+  }
+
+  environment {
+    id = confluent_environment.atlas-dev-v2.id
+  }
+
+  compute_pool {
+    id = confluent_flink_compute_pool.flink_coveo_dev.id
+  }
+
+  principal {
+    id = confluent_service_account.flink_service_account.id
+  }
+
+  # This SQL reads data from source_topic, filters it, and ingests the filtered data into sink_topic.
+  statement = <<EOT
+    CREATE TABLE my_sink_topic AS
+    SELECT
+      window_start,
+      window_end,
+      SUM(price) AS total_revenue,
+      COUNT(*) AS cnt
+    FROM
+    TABLE(TUMBLE(TABLE `examples`.`marketplace`.`orders`, DESCRIPTOR($rowtime), INTERVAL '1' MINUTE))
+    GROUP BY window_start, window_end;
+    EOT
+
+  properties = {
+    "sql.current-catalog"  = confluent_environment.atlas-dev-v2.display_name
+    "sql.current-database" = confluent_kafka_cluster.atlas-dev-cluster-v2.display_name
+  }
+
+  rest_endpoint = data.confluent_flink_region.my_flink_region.rest_endpoint
+
+  credentials {
+    key    = confluent_api_key.my_flink_api_key.id
+    secret = confluent_api_key.my_flink_api_key.secret
+  }
+
+  depends_on = [
+    confluent_api_key.my_flink_api_key,
+    confluent_flink_compute_pool.flink_coveo_dev,
+    confluent_kafka_cluster.atlas-dev-cluster-v2
+  ]
+}
