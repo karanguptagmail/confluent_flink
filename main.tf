@@ -109,7 +109,7 @@ resource "confluent_api_key" "my_flink_api_key" {
     kind        = data.confluent_flink_region.my_flink_region.kind
 
     environment {
-      id = confluent_environment.my_env.id
+      id = data.confluent_environment.atlas-dev-v2.id
     }
   }
 
