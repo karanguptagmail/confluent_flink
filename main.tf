@@ -45,7 +45,7 @@ data "confluent_kafka_cluster" "atlas-dev-cluster-v2" {
 # Access the Stream Governance Essentials package to the environment.
 data "confluent_schema_registry_cluster" "schema_registry_cluster" {
   environment {
-    id = confluent_environment.atlas-dev-v2.id
+    id = data.confluent_environment.atlas-dev-v2.id
   }
 }
 
