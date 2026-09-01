@@ -1,5 +1,5 @@
 -- Flink SQL statement to aggregate orders by tumbling window
-CREATE TABLE my_sink_topic AS
+CREATE TABLE revenue_aggregated AS
 SELECT
   window_start,
   window_end,
