@@ -114,7 +114,7 @@ resource "confluent_api_key" "my_flink_api_key" {
   }
 
   depends_on = [
-    confluent_environment.my_env,
+    confluent_environment.atlas-dev-v2,
     confluent_service_account.my_service_account
   ]
 }
