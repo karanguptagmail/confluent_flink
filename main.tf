@@ -98,9 +98,9 @@ resource "confluent_api_key" "my_flink_api_key" {
   display_name = "my_flink_api_key"
 
   owner {
-    id          = confluent_service_account.my_service_account.id
-    api_version = confluent_service_account.my_service_account.api_version
-    kind        = confluent_service_account.my_service_account.kind
+    id          = confluent_service_account.flink_service_account.id
+    api_version = confluent_service_account.flink_service_account.api_version
+    kind        = confluent_service_account.flink_service_account.kind
   }
 
   managed_resource {
@@ -115,6 +115,6 @@ resource "confluent_api_key" "my_flink_api_key" {
 
   depends_on = [
     data.confluent_environment.atlas-dev-v2,
-    confluent_service_account.my_service_account
+    confluent_service_account.flink_service_account
   ]
 }
