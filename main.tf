@@ -152,8 +152,8 @@ resource "confluent_flink_statement" "my_flink_statement" {
     EOT
 
   properties = {
-    "sql.current-catalog"  = confluent_environment.atlas-dev-v2.display_name
-    "sql.current-database" = confluent_kafka_cluster.atlas-dev-cluster-v2.display_name
+    "sql.current-catalog"  = data.confluent_environment.atlas-dev-v2.display_name
+    "sql.current-database" = data.confluent_kafka_cluster.atlas-dev-cluster-v2.display_name
   }
 
   rest_endpoint = data.confluent_flink_region.my_flink_region.rest_endpoint
