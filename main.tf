@@ -138,18 +138,8 @@ resource "confluent_flink_statement" "my_flink_statement" {
     id = confluent_service_account.flink_service_account.id
   }
 
-  # This SQL reads data from source_topic, filters it, and ingests the filtered data into sink_topic.
-  statement = <<EOT
-    CREATE TABLE my_sink_topic AS
-    SELECT
-      window_start,
-      window_end,
-      SUM(price) AS total_revenue,
-      COUNT(*) AS cnt
-    FROM
-    TABLE(TUMBLE(TABLE `examples`.`marketplace`.`orders`, DESCRIPTOR($rowtime), INTERVAL '1' MINUTE))
-    GROUP BY window_start, window_end;
-    EOT
+  # Load SQL statement from external file
+  statement = file("${path.module}/ros_flink/query.sql")
 
   properties = {
     "sql.current-catalog"  = data.confluent_environment.atlas-dev-v2.display_name
