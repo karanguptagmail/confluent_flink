@@ -73,7 +73,7 @@ resource "confluent_role_binding" "my_org_admin_role_binding" {
 
 # Create a Flink compute pool to execute a Flink SQL statement.
 resource "confluent_flink_compute_pool" "flink_coveo_dev" {
-  display_name = "my_compute_pool"
+  display_name = "flink_coveo_dev"
   cloud        = local.cloud
   region       = local.region
   max_cfu      = 5
