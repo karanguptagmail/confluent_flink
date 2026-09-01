@@ -79,10 +79,10 @@ resource "confluent_flink_compute_pool" "flink_coveo_dev" {
   max_cfu      = 1
 
   environment {
-    id = confluent_environment.atlas-dev-v2.id
+    id = data.confluent_environment.atlas-dev-v2.id
   }
 
   depends_on = [
-    confluent_environment.atlas-dev-v2
+    data.confluent_environment.atlas-dev-v2
   ]
 }
