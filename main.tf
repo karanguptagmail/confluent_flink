@@ -166,6 +166,6 @@ resource "confluent_flink_statement" "my_flink_statement" {
   depends_on = [
     confluent_api_key.my_flink_api_key,
     confluent_flink_compute_pool.flink_coveo_dev,
-    confluent_kafka_cluster.atlas-dev-cluster-v2
+    data.confluent_kafka_cluster.atlas-dev-cluster-v2
   ]
 }
