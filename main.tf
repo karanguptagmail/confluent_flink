@@ -127,7 +127,7 @@ resource "confluent_flink_statement" "my_flink_statement" {
   }
 
   environment {
-    id = confluent_environment.atlas-dev-v2.id
+    id = data.confluent_environment.atlas-dev-v2.id
   }
 
   compute_pool {
